@@ -1,0 +1,232 @@
+@prefix ex:    <http://example.org/kayonight#> .
+@prefix schema: <http://schema.org/> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+
+### ===== クラス定義（簡易） =====
+
+ex:Project        a rdfs:Class .
+ex:Event          a rdfs:Class .
+ex:Person         a rdfs:Class .
+ex:Role           a rdfs:Class .
+ex:Task           a rdfs:Class .
+ex:Constraint     a rdfs:Class .
+ex:StreamingPlan  a rdfs:Class .
+ex:TransportOption a rdfs:Class .
+ex:Meeting        a rdfs:Class .
+ex:PlanningDocument a rdfs:Class .
+ex:Policy         a rdfs:Class .
+
+### ===== プロジェクト =====
+
+ex:KayoNight2Days a ex:Project ;
+  schema:name "サックス四重奏『歌謡曲ナイト』2DAYS プロジェクト"@ja ;
+  schema:description "サックス四重奏による歌謡曲ナイトを、2/7大阪・2/8東京で実施するプロジェクト。みすずが場所と交通の手配を担当候補として動き、全員で内容を決めていく。"@ja .
+
+### ===== イベント（公演） =====
+
+ex:OsakaShow a ex:Event ;
+  schema:name "歌謡曲ナイト 大阪公演"@ja ;
+  ex:partOfProject ex:KayoNight2Days ;
+  schema:location "大阪"@ja ;
+  ex:dateLabel "2/7"@ja ;
+  ex:desiredStartTimeLabel "夕方開始"@ja ;
+  ex:desiredEndCondition "外に出たら夜くらいの時間で終わる"@ja ;
+  ex:durationMinutes "90"^^xsd:integer ;
+  ex:hasStreamingPlan ex:OsakaStreamingPlan ;
+  ex:hasLayoutPolicy ex:LayoutPolicyByAudienceCount ;
+  ex:hasRehearsalPlan ex:SameDayRehearsal ;
+  schema:description "サックス四重奏による歌謡曲ナイト大阪公演。休憩なし90分、アンコール込み。当日リハのみ。配信は会場に配信パックがあれば検討、なければ無しでもよい。"@ja .
+
+ex:TokyoShow a ex:Event ;
+  schema:name "歌謡曲ナイト 東京公演"@ja ;
+  ex:partOfProject ex:KayoNight2Days ;
+  schema:location "東京"@ja ;
+  ex:dateLabel "2/8"@ja ;
+  ex:desiredStartTimeLabel "夕方開始"@ja ;
+  ex:desiredEndCondition "外に出たら夜くらいの時間で終わる"@ja ;
+  ex:durationMinutes "90"^^xsd:integer ;
+  ex:hasStreamingPlan ex:TokyoStreamingPlan ;
+  ex:hasLayoutPolicy ex:LayoutPolicyByAudienceCount ;
+  ex:hasRehearsalPlan ex:SameDayRehearsal ;
+  schema:description "サックス四重奏による歌謡曲ナイト東京公演。休憩なし90分、アンコール込み。当日リハのみ。生配信を行う前提で、前回使ったERAを会場第一候補とする。"@ja .
+
+### ===== レイアウト方針・リハ方針 =====
+
+ex:LayoutPolicyByAudienceCount a ex:Policy ;
+  schema:name "動員数に応じて座席/立見を決めるポリシー"@ja ;
+  schema:description "動員数に応じて、着席中心にするか立見中心にするかを公演ごとに決める。現時点では固定しない。"@ja .
+
+ex:SameDayRehearsal a ex:Policy ;
+  schema:name "当日リハのみ方針"@ja ;
+  schema:description "両日とも前日仕込みは行わず、当日入りでリハーサルを行う。"@ja .
+
+### ===== ストリーミング方針 =====
+
+ex:OsakaStreamingPlan a ex:StreamingPlan ;
+  schema:name "大阪公演の配信方針"@ja ;
+  ex:streamingRequired "false"^^xsd:boolean ;
+  schema:description "大阪公演は生配信が必須ではない。会場側に配信パックなどの設備があれば配信を検討するが、なければ実施しない前提でもよい。"@ja ;
+  ex:forEvent ex:OsakaShow .
+
+ex:TokyoStreamingPlan a ex:StreamingPlan ;
+  schema:name "東京公演の配信方針"@ja ;
+  ex:streamingRequired "true"^^xsd:boolean ;
+  schema:description "東京公演は生配信を行う前提。過去に演奏したライブハウスERAを第一候補会場として検討する。"@ja ;
+  ex:preferredVenue ex:VenueEra ;
+  ex:forEvent ex:TokyoShow .
+
+ex:VenueEra a schema:Place ;
+  schema:name "ERA"@ja ;
+  schema:description "過去にサックス四重奏が演奏した東京のライブハウス。東京公演の第一候補会場。"@ja ;
+  schema:addressLocality "東京"@ja .
+
+### ===== 人物 =====
+
+ex:Misuzu a ex:Person ;
+  schema:name "みすず"@ja ;
+  schema:description "場所と交通系の手配担当の候補。大阪・東京それぞれの会場候補を出し、仮押さえや移動手段の検討を行う。"@ja ;
+  ex:candidateRole ex:RoleVenueTransportManager .
+
+ex:Asumin a ex:Person ;
+  schema:name "あすみん"@ja ;
+  schema:description "演出・演奏プラン（演習）担当の候補。曲順や構成、MCの尺などを中心にリードする想定。"@ja ;
+  ex:candidateRole ex:RoleDirector .
+
+ex:Morita a ex:Person ;
+  schema:name "森田"@ja ;
+  schema:description "車移動のオプションを持つメンバー。大阪への移動に自家用車を使う可能性がある。"@ja ;
+  ex:providesTransportOption ex:TransportOptionCar .
+
+ex:UnknownStaff1 a ex:Person ;
+  schema:name "未定メンバーA"@ja ;
+  schema:description "2人の係のうち1人の候補。具体的な役割は今後のオンボードミーティングで決める。"@ja ;
+  ex:candidateRole ex:RoleTBD1 .
+
+ex:UnknownStaff2 a ex:Person ;
+  schema:name "未定メンバーB"@ja ;
+  schema:description "2人の係のうちもう1人の候補。具体的な役割は今後のオンボードミーティングで決める。"@ja ;
+  ex:candidateRole ex:RoleTBD2 .
+
+ex:RemoteSupportStaff a ex:Person ;
+  schema:name "全体補助スタッフ"@ja ;
+  schema:description "当日は会場に参加しないが、全体的な補助（資料作成、Slack周知、台帳など）を担うスタッフ。"@ja ;
+  ex:candidateRole ex:RoleRemoteSupport .
+
+### ===== 役割 =====
+
+ex:RolePerformer a ex:Role ;
+  schema:name "サックス四重奏 演奏者"@ja ;
+  schema:description "サックス四重奏の4名。両公演の演奏本体を担当する。"@ja .
+
+ex:RoleVenueTransportManager a ex:Role ;
+  schema:name "場所・交通手配担当"@ja ;
+  schema:description "会場候補の調査・見積り・仮押さえと、東京⇔大阪の移動手段（新幹線 or 車）の検討・手配を行う。"@ja ;
+  ex:responsibleFor ex:TaskSelectVenues, ex:TaskBookVenues, ex:TaskPlanTransport, ex:TaskCheckVenueMerch, ex:TaskCheckStreamingFeasibility .
+
+ex:RoleDirector a ex:Role ;
+  schema:name "演出・演習担当"@ja ;
+  schema:description "曲順、MCの構成、アンコールを含む90分の流れを設計する。大阪と東京で方針を統一するかどうかも検討する。"@ja ;
+  ex:responsibleFor ex:TaskDesignProgram, ex:TaskDesignMC .
+
+ex:RoleTBD1 a ex:Role ;
+  schema:name "未定役割1（例：制作進行）"@ja ;
+  schema:description "受付・物販・当日の進行などを含む制作進行系の役割候補。"@ja .
+
+ex:RoleTBD2 a ex:Role ;
+  schema:name "未定役割2（例：配信・記録担当）"@ja ;
+  schema:description "配信オペレーションや記録、写真・動画周りの担当候補。"@ja .
+
+ex:RoleRemoteSupport a ex:Role ;
+  schema:name "全体リモート補助"@ja ;
+  schema:description "当日現場にはいないが、資料の整理やオンラインでの助言、Slackでの情報共有などをサポートする役割。"@ja .
+
+### ===== 交通オプション =====
+
+ex:TransportOptionShinkansen a ex:TransportOption ;
+  schema:name "新幹線移動"@ja ;
+  schema:description "東京から大阪・大阪から東京への移動に新幹線を使うオプション。便や料金は別途検討。"@ja .
+
+ex:TransportOptionCar a ex:TransportOption ;
+  schema:name "森田の車移動"@ja ;
+  schema:description "森田の車を使って東京⇔大阪間を移動するオプション。所要時間や疲労などを考慮して新幹線案と比較する。"@ja .
+
+ex:OsakaShow ex:hasTransportOption ex:TransportOptionShinkansen, ex:TransportOptionCar .
+ex:TokyoShow ex:hasTransportOption ex:TransportOptionShinkansen .
+
+### ===== タスク =====
+
+ex:TaskSelectVenues a ex:Task ;
+  schema:name "会場候補のピックアップ"@ja ;
+  schema:description "2/7大阪・2/8東京それぞれについて、条件に合う会場候補を複数ピックアップする。"@ja ;
+  ex:forProject ex:KayoNight2Days .
+
+ex:TaskBookVenues a ex:Task ;
+  schema:name "会場の仮押さえ・本押さえ"@ja ;
+  schema:description "候補の中から大阪・東京の会場を決定し、仮押さえ後に本押さえを行う。"@ja ;
+  ex:forProject ex:KayoNight2Days .
+
+ex:TaskPlanTransport a ex:Task ;
+  schema:name "交通手段の決定"@ja ;
+  schema:description "新幹線にするか森田の車にするかを含め、往復の移動計画を決定する。大阪公演後は可能なら21時頃に東京に戻れると望ましいが、必須条件ではない。"@ja ;
+  ex:forEvent ex:OsakaShow, ex:TokyoShow .
+
+ex:TaskCheckVenueMerch a ex:Task ;
+  schema:name "物販可否の確認"@ja ;
+  schema:description "両会場で物販が可能かどうかのみを確認する。何を売るか、在庫や金銭管理の詳細は後で決める。"@ja ;
+  ex:forEvent ex:OsakaShow, ex:TokyoShow .
+
+ex:TaskCheckStreamingFeasibility a ex:Task ;
+  schema:name "配信可否と条件の確認"@ja ;
+  schema:description "大阪会場で配信パックなどがあるか、東京会場（ERA想定）でどのような配信が可能かを確認する。"@ja ;
+  ex:forEvent ex:OsakaShow, ex:TokyoShow .
+
+ex:TaskDesignProgram a ex:Task ;
+  schema:name "歌謡曲ナイトの曲順・構成案作成"@ja ;
+  schema:description "歌謡曲ナイトとしてどの曲を演奏するか、どの順番か、アンコールを含めて90分に収める構成案を作成する。"@ja ;
+  ex:forProject ex:KayoNight2Days .
+
+ex:TaskDesignMC a ex:Task ;
+  schema:name "MC構成の設計"@ja ;
+  schema:description "MCの長さや話す内容を設計する。ただし現時点では箱と交通優先のため、後回しにしてよいとされている。"@ja ;
+  ex:forProject ex:KayoNight2Days .
+
+### ===== 制約・ポリシー =====
+
+ex:TicketPricingConstraint a ex:Constraint ;
+  schema:name "チケット価格レンジ"@ja ;
+  schema:description "チケット価格は3,000〜4,000円の範囲で設定する。"@ja ;
+  ex:minPrice "3000"^^xsd:integer ;
+  ex:maxPrice "4000"^^xsd:integer .
+
+ex:BudgetConstraint a ex:Constraint ;
+  schema:name "コスト比率の目安"@ja ;
+  schema:description "総コストは最高売上のおおよそ70%程度を目安に検討する。"@ja ;
+  ex:targetCostRatio "0.7"^^xsd:decimal .
+
+ex:DeadlineOneWeekBefore a ex:Constraint ;
+  schema:name "1週間前確定ルール"@ja ;
+  schema:description "計画やトラブル対処も含めて、諸々の決定事項（会場・交通・配信可否など）は各公演日の1週間前までに決める。"@ja .
+
+ex:PromotionSchedule a ex:Constraint ;
+  schema:name "告知・販売スケジュール"@ja ;
+  schema:description "各公演の約1か月前にチケット販売開始とし、その1週間前に情報解禁を行う。"@ja .
+
+ex:CommunicationPolicySlack a ex:Policy ;
+  schema:name "Slack中心のコミュニケーション"@ja ;
+  schema:description "プロジェクトの基本的な連絡手段はSlackとする。"@ja .
+
+### ===== オンボードミーティングと計画書 =====
+
+ex:OnboardingMeeting a ex:Meeting ;
+  schema:name "歌謡曲ナイト2DAYS オンボードミーティング"@ja ;
+  schema:description "みすず・あすみん・未定メンバー2名・全体補助スタッフを含む全員で、計画の叩き台と役割案を共有するためのミーティング。"@ja ;
+  ex:participants ex:Misuzu, ex:Asumin, ex:UnknownStaff1, ex:UnknownStaff2, ex:RemoteSupportStaff ;
+  ex:relatedProject ex:KayoNight2Days .
+
+ex:PlanningDocumentV1 a ex:PlanningDocument ;
+  schema:name "歌謡曲ナイト2DAYS 計画書 叩き台 v1"@ja ;
+  schema:description "Graphrag向けのTurtle形式で表現された計画書の叩き台。大阪・東京公演の基本仕様、人・役割、タスク、制約、スケジュールを含む。"@ja ;
+  ex:coversProject ex:KayoNight2Days ;
+  ex:supportsMeeting ex:OnboardingMeeting .
