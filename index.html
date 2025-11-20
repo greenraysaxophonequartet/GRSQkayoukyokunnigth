@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SYOSマウスピース推しモデル総選挙 企画シート</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0c0c1f;
+      --card: rgba(255, 255, 255, 0.08);
+      --card-strong: rgba(255, 255, 255, 0.14);
+      --text: #f9fbff;
+      --muted: #dbe0ff;
+      --accent: #ff6ad5;
+      --accent-2: #7df9ff;
+      --accent-3: #ffdd59;
+      --shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Noto Sans JP', 'Poppins', system-ui, -apple-system, sans-serif;
+      background: radial-gradient(circle at 20% 20%, rgba(255, 106, 213, 0.16), transparent 35%),
+                  radial-gradient(circle at 80% 10%, rgba(125, 249, 255, 0.18), transparent 32%),
+                  radial-gradient(circle at 50% 90%, rgba(255, 221, 89, 0.18), transparent 38%),
+                  var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 0 18px 70px;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(14px);
+      background: rgba(12, 12, 31, 0.8);
+      box-shadow: var(--shadow);
+      margin: 0 -18px 18px;
+      padding: 12px 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+
+    nav {
+      margin-top: 10px;
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      scrollbar-width: thin;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: linear-gradient(120deg, rgba(255, 106, 213, 0.3), rgba(125, 249, 255, 0.25));
+      font-size: 0.9rem;
+      white-space: nowrap;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    nav a:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.28);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      align-items: center;
+      background: linear-gradient(140deg, rgba(255, 106, 213, 0.2), rgba(125, 249, 255, 0.1));
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .hero-text h1 {
+      margin: 4px 0 6px;
+      font-size: 1.8rem;
+      line-height: 1.2;
+      letter-spacing: 0.5px;
+    }
+
+    .hero-text p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 221, 89, 0.2);
+      color: #ffef99;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+
+    .bubble {
+      position: relative;
+      background: linear-gradient(135deg, var(--card), var(--card-strong));
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      overflow: hidden;
+      margin-top: 12px;
+    }
+
+    .bubble::after {
+      content: '';
+      position: absolute;
+      right: -20px;
+      top: 20px;
+      width: 80px;
+      height: 80px;
+      background: radial-gradient(circle, rgba(125, 249, 255, 0.18), transparent 60%);
+      transform: rotate(12deg);
+    }
+
+    h2.section-title {
+      margin: 28px 0 12px;
+      font-size: 1.3rem;
+      letter-spacing: 0.4px;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .card {
+      background: linear-gradient(120deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
+      border-radius: var(--radius);
+      padding: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 20% 20%, rgba(255, 106, 213, 0.14), transparent 35%);
+      pointer-events: none;
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 1.05rem;
+    }
+
+    .card p, .card li {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 0.97rem;
+    }
+
+    ul { padding-left: 18px; margin: 6px 0 0; }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .tag {
+      background: rgba(125, 249, 255, 0.18);
+      color: #e8fbff;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+
+    .chapter {
+      border-left: 4px solid var(--accent);
+      padding-left: 12px;
+    }
+
+    .chapter .title-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+      font-size: 1.05rem;
+    }
+
+    .chapter strong { color: var(--text); }
+
+    .note {
+      border: 1px dashed rgba(255, 255, 255, 0.4);
+      padding: 10px 12px;
+      border-radius: 12px;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.05);
+      margin-top: 10px;
+      font-size: 0.95rem;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 28px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      letter-spacing: 0.3px;
+    }
+
+    @media (max-width: 720px) {
+      body { padding: 0 16px 70px; }
+      .hero { grid-template-columns: 1fr; padding: 16px; }
+      .hero-text h1 { font-size: 1.6rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">🎷 Syos Pushi Model Election</div>
+    <nav aria-label="ページ内ナビゲーション">
+      <a href="#intro">企画概要</a>
+      <a href="#purpose">狙い</a>
+      <a href="#target">ペルソナ&トーン</a>
+      <a href="#roles">役割</a>
+      <a href="#chapters">チャプター構成</a>
+      <a href="#notes">運用メモ</a>
+    </nav>
+  </header>
+
+  <section class="hero" id="intro">
+    <div class="hero-text">
+      <div class="hero-pill">企画</div>
+      <h1>6人のマウスピースを救え！<br>ぐりんれい4人の推しモデル総選挙</h1>
+      <p>
+        Smoky / Steady / Spark × 開き5・6 の6モデルを、<br>
+        ぐりんれい4人が“顔出しNGの候補者”として匿名試奏。<br>
+        音とキャラだけで「推し」を決めていくエンタメ9割企画。
+      </p>
+    </div>
+    <div class="bubble">
+      <h3>企画のキモ</h3>
+      <ul>
+        <li>マウスピースを「6人のキャラ」として擬人化する。</li>
+        <li>正体を伏せたまま試奏 → 推しを決めてから正体発表。</li>
+        <li>視聴者もコメントで「自分の推しモデル」を選んで参加。</li>
+      </ul>
+      <div class="tag-row">
+        <span class="tag">🎯 ライト層向け</span>
+        <span class="tag">🎭 キャラ化</span>
+        <span class="tag">🧪 ちょい実験要素</span>
+      </div>
+    </div>
+  </section>
+
+  <h2 class="section-title" id="purpose">2. この企画でやりたいこと</h2>
+  <div class="card-grid">
+    <div class="card">
+      <h3>エンタメ9：専門1のゴール</h3>
+      <ul>
+        <li>これから楽器を始める・戻ってくる人が「サックスって楽しそう」と思えるきっかけにする。</li>
+        <li>マウスピースの違いを「難しい専門用語なし」で“性格の違い”として感じてもらう。</li>
+        <li>もしぐりんれいの中で「これは推せる」というモデルが生まれたら、シグネチャー開発ドキュメンタリーへの入口にする。</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>専門1の部分（裏テーマ）</h3>
+      <ul>
+        <li>実は裏では、ブレンド・レスポンス・明瞭さ（TTLで定義した軸）も軽く意識しておく。</li>
+        <li>ただし動画内では、<strong>「協調性」「反応の速さ」「しゃべりやすさ」</strong>など擬人化して伝える。</li>
+        <li>Wind band向けの研究（TTL）は“設計図”として裏側に置いておき、画面上はあくまでポップに。</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 class="section-title" id="target">3. ペルソナ & トーン</h2>
+  <div class="card-grid">
+    <div class="card">
+      <h3>想定している人</h3>
+      <ul>
+        <li>これからサックスを始めてみたい人。</li>
+        <li>昔吹いてたけど、またやってみようかな…と思っている人。</li>
+        <li>いつかアンサンブルに参加してみたいライト層。</li>
+        <li>なんとなく楽器動画を眺めるのが好きな人。</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>トーン & 空気感</h3>
+      <ul>
+        <li>バラエティ番組の「総選挙」や「オーディション」っぽいノリ。</li>
+        <li>プロの本気とふざけのバランス半々くらい。</li>
+        <li>専門用語は極力封印して、たとえ話とキャラ付けで押し切る。</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 class="section-title" id="roles">4. 役割イメージ</h2>
+  <div class="card-grid">
+    <div class="card">
+      <h3>ぐりんれい：MC兼、推し選抜メンバー</h3>
+      <ul>
+        <li>司会進行：企画の説明・チャプターのつなぎ。</li>
+        <li>試奏：各パートで候補者A〜Fを吹いて「推しポイント」をコメント。</li>
+        <li>判定：最終的に「自分の推しモデル」を一人ずつ決める。</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>マウスピース6人：個性強めのキャラクターたち</h3>
+      <ul>
+        <li>Smoky5：寡黙な実力者。</li>
+        <li>Smoky6：夜に強い色気担当。</li>
+        <li>Steady5：成績優秀な優等生。</li>
+        <li>Steady6：万能型スポーツマン。</li>
+        <li>Spark5：元気すぎる陽キャ。</li>
+        <li>Spark6：センター狙いの主人公タイプ。</li>
+      </ul>
+      <div class="note">
+        画面上は「中身が何か」は最後まで伏せて、<br>
+        A〜Fの匿名キャラとして登場させる。
+      </div>
+    </div>
+  </div>
+
+  <h2 class="section-title" id="chapters">5. チャプター構成</h2>
+  <div class="card-grid">
+    <div class="card chapter">
+      <div class="title-row"><span>🎬</span><strong>CH1：開封の儀 & キャラ紹介</strong></div>
+      <p><strong>目的：</strong>6モデルを“人”として好きになってもらう。</p>
+      <ul>
+        <li>箱から出しながら1本ずつキャラ付けして紹介。</li>
+        <li>視聴者に「推しになりそうな子」をコメントで聞いておく。</li>
+        <li>ここではまだモデル名・開きは出さない（後半の伏線）。</li>
+      </ul>
+    </div>
+
+    <div class="card chapter">
+      <div class="title-row"><span>🎭</span><strong>CH2：匿名試奏バトル（A〜F）</strong></div>
+      <p><strong>目的：</strong>見た目の情報を消して、「音とノリ」だけで推しを選ばせる。</p>
+      <ul>
+        <li>A〜Fのラベルで、共通フレーズを一気に試奏。</li>
+        <li>ぐりんれいは「Aは協調性高い」「Cはクセ強い」など性格でコメント。</li>
+        <li>視聴者には「一番好きなのどれ？」と問いかけて後半への引きを作る。</li>
+      </ul>
+    </div>
+
+    <div class="card chapter">
+      <div class="title-row"><span>🧪</span><strong>CH3：推し決定会議（トーク中心）</strong></div>
+      <p><strong>目的：</strong>4人それぞれの“推しストーリー”で感情移入させる。</p>
+      <ul>
+        <li>各自がA〜Fの中から「今日の推しベスト3」を発表。</li>
+        <li>理由は徹底的に感覚で話す（吹いてて楽しい・自分っぽい・キャラに合う等）。</li>
+        <li>裏の専門性はテロップで「協調性○」「反応の速さ○」くらい薄く出すだけ。</li>
+      </ul>
+    </div>
+
+    <div class="card chapter">
+      <div class="title-row"><span>🎉</span><strong>CH4：正体発表！あなたの推しは〇〇でした</strong></div>
+      <p><strong>目的：</strong>ケレン味MAXの“答え合わせ”で最後まで見てもらう。</p>
+      <ul>
+        <li>A〜Fの正体を1本ずつ明かしていく。</li>
+        <li>「え、これSpark6だったの!?」「Smoky5強すぎでは」などリアクションを最大化。</li>
+        <li>4人の推しとモデルの組み合わせで、意外性とドラマを作る。</li>
+      </ul>
+    </div>
+
+    <div class="card chapter">
+      <div class="title-row"><span>🚀</span><strong>CH5：もし“推し”が固まったら…シグネチャーへの道</strong></div>
+      <p><strong>目的：</strong>後日のドキュメンタリー企画への橋渡し。</p>
+      <ul>
+        <li>今回の推しの中から「シグネチャー候補になりそうな方向性」が見えたか一言ずつコメント。</li>
+        <li>堀越さんのメール案と接続：「気に入ったら、後日キックオフミーティングからドキュメンタリーを撮っていきたい」。</li>
+        <li>最後に「第2章・開発編やってほしい人はコメントで応援してね」で締める。</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 class="section-title" id="notes">6. 当日の運用メモ</h2>
+  <div class="card-grid">
+    <div class="card">
+      <ul>
+        <li>A〜Fのラベリング表は撮影前に必ず写真に撮っておく（編集・答え合わせ用）。</li>
+        <li>匿名試奏のときは「モデル名」「開き」は口に出さないように注意。</li>
+        <li>テロップで入れる専門要素は「協調性」「反応の速さ」「言葉の聞き取りやすさ」など擬人化した表現に限定。</li>
+        <li>最後の「第2章やるかも」話は、堀越さんのメール内容と矛盾しないように“可能性”ベースで話す。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer">
+    SYOSマウスピース推しモデル総選挙 企画シート｜エンタメ9：専門1プラン
+  </div>
+</body>
+</html>

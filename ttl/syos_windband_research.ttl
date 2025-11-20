@@ -1,0 +1,81 @@
+@prefix ex: <http://example.org/syos#> .
+@prefix schema: <http://schema.org/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+ex:SYOSProject a prov:Project ;
+  schema:name "SYOS Mouthpiece Research" ;
+  schema:description "Evaluate SYOS Smoky, Steady, and Spark mouthpieces with openings 5 and 6 for wind band use." ;
+  ex:seeksGoal ex:WindBandMouthpieceGoal .
+
+ex:WindBandMouthpieceGoal a prov:Plan ;
+  schema:name "Wind band mouthpiece selection" ;
+  schema:description "Choose a SYOS configuration that meets wind band priorities for blend, response, and clarity." ;
+  ex:addressesEnsemble ex:WindBandContext ;
+  ex:referencesAssumption ex:Opening5Assumption, ex:Opening6Assumption, ex:EnsemblePriorityAssumption, ex:PerPartCharacterExpectation, ex:WindBandUsability ;
+  ex:usesEvaluationMethod ex:PlaytestEvaluation .
+
+ex:WindBandContext a schema:MusicGroup ;
+  schema:name "Wind band" ;
+  schema:description "Large ensemble setting prioritizing blend, response stability, and clear articulation." .
+
+ex:SmokyModel a ex:SYOSModel ;
+  schema:name "Smoky" ;
+  schema:description "Dark, rounded tonal profile aimed at smooth blend." ;
+  ex:availableOpening ex:Opening5 , ex:Opening6 .
+
+ex:SteadyModel a ex:SYOSModel ;
+  schema:name "Steady" ;
+  schema:description "Balanced core with consistent response across registers." ;
+  ex:availableOpening ex:Opening5 , ex:Opening6 .
+
+ex:SparkModel a ex:SYOSModel ;
+  schema:name "Spark" ;
+  schema:description "Brighter, assertive tone for projecting lines." ;
+  ex:availableOpening ex:Opening5 , ex:Opening6 .
+
+ex:Opening5 a ex:MouthpieceOpening ;
+  schema:identifier "5" ;
+  schema:description "Moderate opening favoring control and easy response for ensemble blend." .
+
+ex:Opening6 a ex:MouthpieceOpening ;
+  schema:identifier "6" ;
+  schema:description "Slightly larger opening offering more flexibility and dynamic headroom." .
+
+ex:Opening5Assumption a ex:Assumption ;
+  schema:description "Opening 5 will improve stability and articulation cleanliness for section and second parts." ;
+  ex:informedBy ex:WindBandContext .
+
+ex:Opening6Assumption a ex:Assumption ;
+  schema:description "Opening 6 will enhance expressive range for principal and solo passages without sacrificing blend when paired with darker models." ;
+  ex:informedBy ex:WindBandContext .
+
+ex:EnsemblePriorityAssumption a ex:Assumption ;
+  schema:description "Wind band priorities emphasize blend over projection, with clear articulation and reliable intonation." ;
+  ex:informedBy ex:WindBandContext .
+
+ex:PerPartCharacterExpectation a ex:Assumption ;
+  schema:description "Lead and solo lines can tolerate brighter models, while section roles favor darker or balanced setups." ;
+  ex:informedBy ex:WindBandContext ;
+  ex:mapsPartExpectation (
+    [ schema:name "Lead/Principal" ; ex:prefersModel ex:SparkModel ; ex:openingPreference ex:Opening6 ]
+    [ schema:name "Section" ; ex:prefersModel ex:SmokyModel ; ex:openingPreference ex:Opening5 ]
+    [ schema:name "Second/Support" ; ex:prefersModel ex:SteadyModel ; ex:openingPreference ex:Opening5 ]
+  ) .
+
+ex:WindBandUsability a ex:Assumption ;
+  schema:description "All candidate setups must remain usable in wind band repertoire, avoiding extreme brightness or resistance." ;
+  ex:informedBy ex:WindBandContext .
+
+ex:PlaytestEvaluation a ex:EvaluationMethod ;
+  schema:description "Side-by-side playtest of Smoky, Steady, and Spark with openings 5 and 6 on standard wind band excerpts to rate blend, response, and articulation." ;
+  schema:methodology "Record controlled excerpts, gather peer feedback, and score against ensemble priorities." .
+
+# Goal references evaluation and assumptions explicitly
+ex:WindBandMouthpieceGoal ex:referencesAssumption ex:Opening5Assumption , ex:Opening6Assumption , ex:EnsemblePriorityAssumption , ex:PerPartCharacterExpectation , ex:WindBandUsability ;
+  ex:usesEvaluationMethod ex:PlaytestEvaluation .
+
+# Project linked to goal
+ex:SYOSProject ex:seeksGoal ex:WindBandMouthpieceGoal .
